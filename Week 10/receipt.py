@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 
+
 # Call the now() method to get the current
 # date and time as a datetime object from
 # the computer's operating system.
@@ -14,13 +15,18 @@ def main():
     PRODUCT_NAME_INDEX = 1
     QUANTITY_INDEX = 1
     PRICE_INDEX = 2
+    try: 
+        print('Inkom Emporium: \n ')
+        products_dict = read_dict('products.csv', PRODUCT_ID_INDEX)
+        process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX)
+       
+        print('\nThank you for shopping at the Inkom Emporium')
+        print(f"{current_date_and_time:%a %b %d  %I:%M:%S %Y}")
 
-    print('Inkom Emporium: \n ')
-    products_dict = read_dict('products.csv', PRODUCT_ID_INDEX)
-    process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX)
-    print('\nThank you for shopping at the Inkom Emporium')
-    print(f"{current_date_and_time:%A %I:%M %p}")
-            
+    except KeyError as key_err:
+        print(type(key_err).__name__, key_err, sep=": ")   
+    except FileNotFoundError as file_err:
+        print(type(file_err).__name__, file_err, sep=": ")  
     
    
 def process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX):
@@ -31,15 +37,14 @@ def process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_
         next(reader)
         for row_list in reader:
             id = row_list[PRODUCT_ID_INDEX] 
-            if id in products_dict:
-                product_attribute_list = products_dict[id]
-                name = product_attribute_list[PRODUCT_NAME_INDEX]
-                quantity = int(row_list[QUANTITY_INDEX])
-                price = float(product_attribute_list[PRICE_INDEX])
-                total_quantity += quantity
-                quantity_price = price * quantity
-                subtotal += quantity_price
-                print(f'{name} : {quantity} @ {price}')
+            product_attribute_list = products_dict[id]
+            name = product_attribute_list[PRODUCT_NAME_INDEX]
+            quantity = int(row_list[QUANTITY_INDEX])
+            price = float(product_attribute_list[PRICE_INDEX])
+            total_quantity += quantity
+            quantity_price = price * quantity
+            subtotal += quantity_price
+            print(f'{name} : {quantity} @ {price}')
 
 
     sales_tax = subtotal * .06
