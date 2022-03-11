@@ -18,7 +18,9 @@ def main():
     try: 
         print('Inkom Emporium: \n ')
         products_dict = read_dict('products.csv', PRODUCT_ID_INDEX)
-        process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX)
+        PERCENT_DISCOUNT = discount()
+        
+        process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX, PERCENT_DISCOUNT)
        
         print('\nThank you for shopping at the Inkom Emporium')
         print(f"{current_date_and_time:%a %b %d  %I:%M:%S %Y}")
@@ -28,8 +30,30 @@ def main():
     except FileNotFoundError as file_err:
         print(type(file_err).__name__, file_err, sep=": ")  
     
-   
-def process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX):
+
+def discount():
+    if_discount = input('Do you have a store discount today?(Yes or No)  ').capitalize()
+    if if_discount == "Yes":
+        number = None
+        while number == None:
+            try:
+                number = float(input('What is your percent off discount?  '))
+                if number < 0:
+                    print(f"Error: {number} is too low." \
+                            f" Please enter a different number.")
+                    number = None
+                elif number > 100:
+                    print(f"Error: {number} is too high." \
+                            f" Please enter a different number.")
+                    number = None
+            except ValueError as val_err:
+                print("Error:", val_err)
+         
+        percent_discount = number / 100
+    else: percent_discount = 0
+    return percent_discount
+
+def process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_INDEX, QUANTITY_INDEX, PERCENT_DISCOUNT = 0):
     total_quantity = 0
     subtotal = 0
     with open('request.csv', 'rt') as request_file:
@@ -46,10 +70,11 @@ def process_requests(products_dict, PRODUCT_ID_INDEX, PRODUCT_NAME_INDEX, PRICE_
             subtotal += quantity_price
             print(f'{name} : {quantity} @ {price}')
 
-
+    discount = subtotal * PERCENT_DISCOUNT
+    subtotal = subtotal - discount
     sales_tax = subtotal * .06
     total = sales_tax + subtotal
-    print(f'\nNumber of items: {total_quantity} \nSubtotal: {subtotal:.2f} \nSales Tax: {sales_tax:.2f} \nTotal: {total:.2f}')                
+    print(f'\nNumber of items: {total_quantity} \nSubtotal: {subtotal:.2f}\nMoney saved: {discount: .2f} \nSales Tax: {sales_tax:.2f} \nTotal: {total:.2f}')                
   
             
 
