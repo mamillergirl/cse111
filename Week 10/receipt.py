@@ -29,6 +29,8 @@ def main():
         print(type(key_err).__name__, key_err, sep=": ")   
     except FileNotFoundError as file_err:
         print(type(file_err).__name__, file_err, sep=": ")  
+    except PermissionError as perm_err:
+        print(type(perm_err).__name__, perm_err, sep=": ")
     
 
 def discount():
