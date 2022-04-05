@@ -9,20 +9,22 @@ supervisors know what we intend to do. Please answer each of the
 following questions to the best of your knowledge.)
 
 1. What is the title of your program?
+Word occurence and sentence length calculator.
 
 2. What real world problem will your program address or help to solve?
+I find that when I write essays or long responses on quizes I tend to use a the same words over and over again. I also forget to vary the lengths of my sentences. I also plan to have the program search for words that you "shouldn't" use so that I can have better word choice when I write.
 
 3. What will you learn from developing this program?
-
+I will learn about formatting a program for myself because I won't have the guides that we have in this class for how to seperate it into functions. 
 4. What Python modules will your program use? (Some examples are: csv,
 datetime, functools, matplotlib, math, pandas, pytest, random, requests,
 and tkinter.)
-
+pytest.
 5. Will you separate your Python program into functions that each
 perform a single task?
-
+I am planning on breaking it up a lot.
 6. Will you write test functions to test many of your program functions?
-
+I am planning on it.
 (Remember that it's hard to test functions that get user input and print
 output. It's easy to test functions that don't get user input and don't
 print output but instead have parameters and return a result. Therefore,
